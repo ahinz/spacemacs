@@ -3,7 +3,9 @@
 (defun dotspacemacs/layers ()
   (setq-default dotspacemacs-configuration-layers
                 '(
-                  pythonclojure
+                  swift
+                  python
+                  clojure
                   jabber
                   colors
                   javascript
@@ -13,7 +15,10 @@
                   git
                   html
                   markdown
-                  ruby
+                  (ruby :variables ruby-version-manager 'rbenv
+                        ruby-enable-enh-ruby-mode t
+                        ruby-test-runner 'rspec)
+                  ruby-on-rails
                   yaml
                   syntax-checking
                   smex
@@ -23,11 +28,13 @@
                   (shell :variables
                          shell-default-shell 'ansi-term))
 
+                ;; Keep a kill ring
+                dotspacemacs-enable-paste-micro-state t
+
                 ;;rainbow delimiters, but no special highlighting for the "current" one
                 dotspacemacs-highlight-delimiters 'any
 
                 ;;these micro state have been buggy and I don't use them anyway
-                dotspacemacs-enable-paste-micro-state nil
                 dotspacemacs-enable-helm-micro-state nil
 
                 dotspacemacs-smartparens-strict-mode t
@@ -137,6 +144,9 @@
         flycheck-check-syntax-automatically '(mode-enabled save)
         system-uses-terminfo nil)
 
+  ;; Don't let evil screw with my terminals
+  (evil-set-initial-state 'term-mode 'emacs)
+
   ;;indents
   (setq evil-shift-width 2
         coffee-tab-width 2
@@ -177,7 +187,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yaml-mode xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spacemacs-theme spaceline powerline smex smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters pug-mode popwin persp-mode pcre2el paradox orgit org org-plus-contrib org-bullets open-junk-file neotree multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd linum-relative link-hint less-css-mode js2-refactor js2-mode js-doc jabber fsm info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-dash helm-css-scss helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish define-word dash-at-point column-enforce-mode color-identifiers-mode coffee-mode clj-refactor hydra inflections edn multiple-cursors paredit yasnippet s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider spinner queue pkg-info clojure-mode epl chruby bundler inf-ruby bind-map bind-key auto-highlight-symbol auto-dictionary auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build color-theme-sanityinc-tomorrow))))
+    (swift-mode yapfify pyvenv pytest pyenv-mode py-isort enh-ruby-mode projectile-rails pip-requirements live-py-mode hy-mode helm-pydoc feature-mode cython-mode anaconda-mode pythonic yaml-mode xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spacemacs-theme spaceline powerline smex smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters pug-mode popwin persp-mode pcre2el paradox orgit org org-plus-contrib org-bullets open-junk-file neotree multi-term move-text mmm-mode minitest markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum livid-mode skewer-mode simple-httpd linum-relative link-hint less-css-mode js2-refactor js2-mode js-doc jabber fsm info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-dash helm-css-scss helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish define-word dash-at-point column-enforce-mode color-identifiers-mode coffee-mode clj-refactor hydra inflections edn multiple-cursors paredit yasnippet s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider spinner queue pkg-info clojure-mode epl chruby bundler inf-ruby bind-map bind-key auto-highlight-symbol auto-dictionary auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build color-theme-sanityinc-tomorrow))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
